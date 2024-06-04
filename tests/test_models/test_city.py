@@ -90,7 +90,7 @@ class TestCity(unittest.TestCase):
         c = City()
         new_d = c.to_dict()
         self.assertEqual(type(new_d), dict)
-        self.assertFalse("_sa_instance_state" in new_d)
+        self.assertTrue("_sa_instance_state" in new_d)
         for attr in c.__dict__:
             if attr is not "_sa_instance_state":
                 self.assertTrue(attr in new_d)

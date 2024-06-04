@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 """
-Contains class BaseModel
+BaseModel Class of Models Module
 """
-
 from datetime import datetime
 import models
 from os import getenv
@@ -59,17 +58,17 @@ class BaseModel:
         models.storage.save()
 
     def to_dict(self):
-        """returns a dictionary containing all keys/values of the instance"""
-        new_dict = self.__dict__.copy()
-        if "created_at" in new_dict:
-            new_dict["created_at"] = new_dict["created_at"].strftime(time)
-        if "updated_at" in new_dict:
-            new_dict["updated_at"] = new_dict["updated_at"].strftime(time)
-        new_dict["__class__"] = self.__class__.__name__
-        if "_sa_instance_state" in new_dict:
-            del new_dict["_sa_instance_state"]
-        return new_dict
+        """Returns a dictionary representation of the instance"""
+        dictionary = self.__dict__.copy()
+        dictionary["__class__"] = self.__class__.__name__
+        dictionary["created_at"] = self.created_at.isoformat()
+        dictionary["updated_at"] = self.updated_at.isoformat()
+        return dictionary
 
     def delete(self):
         """delete the current instance from the storage"""
         models.storage.delete(self)
+
+    def to_json(self):
+        """Converts an object to JSON string format"""
+        return json.dumps(self.to_dict())
